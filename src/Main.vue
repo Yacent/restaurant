@@ -22,10 +22,11 @@ export default {
 #restaurant-main {
   width: 100%;
   height: 100%;
+  position: relative;
 
   .main {
     padding-bottom: 70px;
-    height: 100%;
+    max-height: 90%;
   }
 }
 </style>
