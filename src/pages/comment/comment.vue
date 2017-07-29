@@ -17,27 +17,62 @@
 	  <p>发布评论成功可赢5积分</p>
 	  <div>
 	  	<img :src="defPhoto" alt="">
-	  	<input type="file" class="photo">
+	  	<imgupload :compentstyle="imgStyle0" :compentid="fileComponents[0]"> </imgupload>
+      <imgupload :compentstyle="imgStyle1" :compentid="fileComponents[1]"> </imgupload>
+      <imgupload :compentstyle="imgStyle2" :compentid="fileComponents[2]"> </imgupload>
 	  	<p>发布评论成功可赢5积分</p>
 	  </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'comment',
-  data () {
-  	var me = {
-  		score : 4,
-  		comment : '美味'
-  	}
-    return {
-    	me : me,
-    	starOn: require('../../assets/ic_star_pressed.png'),
-    	starDown: require('../../assets/ic_star.png'),
-    	defPhoto : require('../../assets/ic_upload_img_default.jpg')
+import imgupload from '@/components/upload'
+
+export default{
+    name: 'comment',
+    data () {
+        me: {
+          score: 4,
+          comment: '美味'
+        }
+        return {
+            me : me,
+            starOn: require('../../assets/ic_star_pressed.png'),
+            starDown: require('../../assets/ic_star.png'),
+            defPhoto: require('../../assets/ic_upload_img_default.jpg'),
+            fileComponents:['file0','flie1','file2'],
+            imgStyle0:{
+                width:'100px',
+                height:'100px',
+                backgroundColor: '#eee'
+            },
+           imgStyle1:{
+                width:'150px',
+                height:'150px',
+                backgroundColor: '#eee'
+            },
+           imgStyle2:{
+                width:'200px',
+                height:'200px',
+                backgroundColor: '#eee'
+            },
+            imgAll:{}
+            /*
+                imgAll.file0{}
+                imgAll.file1{}
+                imgAll.file2{}
+            */
+        }
+    },
+    components:{
+        imgupload
+    },
+    events:{
+        'imgFormChild':function(obj,id){
+            this.imgAll[id]=obj
+            console.log('info parent:',JSON.stringify(this.imgAll))
+        }
     }
-  }
 }
 </script>
 

@@ -5,7 +5,7 @@
         <ul class="showimg">
           <template v-for='sd in shufflingData'>
             <li v-if='shufflingId==$index' v-on:mouseover='showPreNext' v-on:mouseout='hiddenPreNext'>
-              <a target="_blank" title="{{sd.title}}" class="img" href="{{sd.href}}"><img alt="{{sd.title}}" v-bind:src="sd.url"/></a>
+              <a target="_blank" title="{{sd.title}}" class="img" href="{{sd.href}}"><img alt="{{sd.title}}" :src="sd.url"/></a>
               <h3><a target="_blank" title="{{sd.title}}" href="{{sd.href}}">{{sd.title}}</a></h3>
             </li>
           </template>
@@ -27,46 +27,45 @@
     components: {
     },
     ready: function () {
-      var _this = this;
-      var timer = setInterval(function () {
+      var _this = this
+      setInterval(function () {
         if (_this.shufflingId >= 0 && _this.shufflingId < _this.shufflingData.length - 1) {
-          _this.shufflingId = parseInt(_this.shufflingId) + 1;
-        }
-        else if (_this.shufflingId == _this.shufflingData.length - 1) {
-          _this.shufflingId = 0;
+          _this.shufflingId = parseInt(_this.shufflingId) + 1 }
+        else if (_this.shufflingId === _this.shufflingData.length - 1) {
+          _this.shufflingId = 0
         }
       }, 5000)
     },
     methods: {
       bulletFunOne: function () {
-        this.shufflingId = 0;
+        this.shufflingId = 0
       },
       bulletFunTwo: function () {
-        this.shufflingId = 1;
+        this.shufflingId = 1
       },
       bulletFunThree: function () {
-        this.shufflingId = 2;
+        this.shufflingId = 2
       },
       showPreNext: function () {
-        this.PreNext = true;
+        this.PreNext = true
       },
       hiddenPreNext: function () {
-        this.PreNext = false;
+        this.PreNext = false
       },
       preFun: function () {
-        var _this = this;
+        var _this = this
         if (_this.shufflingId > 0 && _this.shufflingId < _this.shufflingData.length) {
-          _this.shufflingId = parseInt(_this.shufflingId) - 1;
+          _this.shufflingId = parseInt(_this.shufflingId) - 1
         }
       },
       nextFun: function () {
-        var _this = this;
+        var _this = this
         if (_this.shufflingId >= 0 && _this.shufflingId < _this.shufflingData.length - 1) {
-          _this.shufflingId = parseInt(_this.shufflingId) + 1;
+          _this.shufflingId = parseInt(_this.shufflingId) + 1
         }
       }
     },
-    data() {
+    data () {
       return {
         shufflingData: [{
           title: '',
@@ -83,7 +82,7 @@
           url: './../assets/detail.jpg'
         }],
         shufflingId: 0,
-        PreNext: false,
+        PreNext: false
       }
     }
   }
