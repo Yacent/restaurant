@@ -25,10 +25,8 @@ export const setFavoriteTaste = (userId, taste) => {
 }
 
 // 用户登录
-export const userLogin = (userId) => {
-  return axios.post(api + 'login/', qs.stringify({
-    user_id: userId
-  }))
+export const userLogin = (user) => {
+  return axios.post(api + 'login/', qs.stringify(user))
 }
 // 获取用户信息
 // 积分兑换
