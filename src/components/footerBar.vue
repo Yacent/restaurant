@@ -2,22 +2,22 @@
   <div id="footer-bar">
     <router-link to="/main/flavor" class="tabbar-item">
       <div class="item-icon">
-        <img src="../assets/flavor-selected.png" :alt="口味" v-if="this.$route.path === '/main/flavor'">
-        <img src="../assets/flavor.png" :alt="口味" v-else>
+        <img src="../assets/flavor-selected.png" alt="口味" v-if="this.$route.path === '/main/flavor'">
+        <img src="../assets/flavor.png" alt="口味" v-else>
       </div>
       <span class="label">口味</span>
     </router-link>
     <router-link to="/main/recommend" class="tabbar-item">
       <div class="item-icon">
-        <img src="../assets/recommend.png" :alt="推荐" v-if="this.$route.path === '/main/recommend'">
-        <img src="../assets/recommend.png" :alt="推荐" v-else>
+        <img src="../assets/recommend-selected.png" alt="推荐" v-if="this.$route.path === '/main/recommend'">
+        <img src="../assets/recommend.png" alt="推荐" v-else>
       </div>
       <span class="label">推荐</span>
     </router-link>
     <router-link to="/main/my" class="tabbar-item">
       <div class="item-icon">
-        <img src="../assets/me.png" :alt="我的" v-if="this.$route.path === '/main/my'">
-        <img src="../assets/me.png" :alt="我的" v-else>
+        <img src="../assets/me-selected.png" alt="我的" v-if="this.$route.path === '/main/my'">
+        <img src="../assets/me.png" alt="我的" v-else>
       </div>
       <span class="label">我的</span>
     </router-link>

@@ -11,11 +11,6 @@ import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon.vue'
 Vue.component('icon', Icon)
 
-import { imgUploadObj, imgUploadPer, style } from './directive'
-Vue.directive('bindimgid', imgUploadObj)
-Vue.directive('binduploadper', imgUploadPer)
-Vue.directive('bdstyle', style)
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

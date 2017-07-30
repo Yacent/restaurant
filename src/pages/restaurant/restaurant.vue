@@ -7,17 +7,31 @@
       <div class="header-title">鹅厂美味</div>
     </div>
     <div class="restaurant-main">
-      <router-view></router-view>
+      <div id="tencent-restaurant">
+        <new-food></new-food>
+        <today-menu></today-menu>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import newFood from '../../components/newFood.vue'
+import todayMenu from '../../components/todayMenu.vue'
+
 export default {
   name: 'restaurant',
   data () {
     return {
     }
+  },
+  created () {
+    console.log(this.$route.params.pos)
+    // 在这里去判断路由，然后请求不同的信息
+  },
+  components: {
+    newFood,
+    todayMenu
   }
 }
 </script>
@@ -43,7 +57,6 @@ export default {
         width: 25px;
         color: #909090;
       }
-
     }
 
     .header-title {
