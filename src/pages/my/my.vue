@@ -49,6 +49,7 @@ export default {
       background: url('../../assets/u484.jpg') no-repeat center center ;
       z-index: -1000 ;
       color: #666;
+      background-size: cover;
 
      
   }
