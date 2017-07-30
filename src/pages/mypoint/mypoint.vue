@@ -11,10 +11,11 @@
 
 <script>
 import headbar from '../../components/headbar'
+import {exchangeVoucher} from '../../api'
 export default {
   name: 'mypoint',
   data () {
-    var points = 1000
+    var points = 0
     var tickets = 0
     return {
       points: points,
@@ -28,11 +29,27 @@ export default {
   },
   methods: {
     getTicket: function () {
-      if (this.points > 100) {
-        this.points -= 100
-        this.tickets += 1
+      if (this.points >= 20) {
+        exchangeVoucher(1).then(response => {
+          if (response.data === 'request error') {
+            window.location = '/login.html'
+          }
+          var data = response.data
+          this.points = data.score
+          this.tickets = data.voucher
+        })
       }
     }
+  },
+  created () {
+    exchangeVoucher(0).then(response => {
+      if (response.data === 'request error') {
+        window.location = '/login.html'
+      }
+      var data = response.data
+      this.points = data.score
+      this.tickets = data.voucher
+    })
   },
   components: {
     headbar

@@ -8,8 +8,8 @@
     </div>
     <div class="restaurant-main">
       <div id="tencent-restaurant">
-        <new-food></new-food>
-        <today-menu></today-menu>
+        <new-food :newList="news"></new-food>
+        <today-menu :todayMenuList="list"></today-menu>
       </div>
     </div>
   </div>
@@ -18,16 +18,40 @@
 <script>
 import newFood from '../../components/newFood.vue'
 import todayMenu from '../../components/todayMenu.vue'
-
+import {getListByRestId, getNewByRestId} from '../../api'
 export default {
   name: 'restaurant',
   data () {
     return {
+      list: [],
+      news: []
     }
   },
   created () {
-    console.log(this.$route.params.pos)
     // 在这里去判断路由，然后请求不同的信息
+    var buildId = this.$route.params.pos
+    getListByRestId(buildId).then(response => {
+      if (!response.data.length) {
+        return
+      }
+      var list = response.data
+      if (list.length) {
+        list.sort(function (a, b) {
+          return b.like - a.like
+        })
+        list.forEach((item, index) => {
+          if (index < 3) {
+            item.top = 'TOP' + (index + 1)
+          } else {
+            item.top = ''
+          }
+        })
+        this.list = list
+      }
+    })
+    getNewByRestId(buildId).then(response => {
+      console.log('getNewByRestId', response)
+    })
   },
   components: {
     newFood,

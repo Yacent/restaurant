@@ -9,7 +9,7 @@
     </div>
     <ul class="mylist">
       <li><span class="l-info">昵称</span><span class="l-value">{{user.name}}</span></li>
-      <li><span class="l-info">性别</span><span class="l-value">{{user.sex ? '男':'女'}}</span></li>
+      <li><span class="l-info">性别</span><span class="l-value">{{user.sex === 0 ? '男':'女'}}</span></li>
       <li><span class="l-info">菜品</span><span class="l-value">{{user.food}}</span></li>
       <li><span class="l-info">口味</span><span class="l-value">{{user.taste}}</span></li>
       <li><a :href="'/main/mypoint'" class="ticket l-info">积分饭票 <img :src="pics.right_arrow" alt="" ></a></li>
@@ -18,25 +18,48 @@
 </template>
 
 <script>
+import {getUserInfo} from '../../api'
+var foods = [{id: 0, text: '中餐'}, {id: 1, text: '西餐'}, {id: 2, text: '粤菜'}, {id: 3, text: '东南亚'}, {id: 4, text: '粉面食'}, {id: 5, text: '汤锅'}, {id: 6, text: '甜点'}, {id: 7, text: '饮品'}]
+var tastes = [{id: 0, text: '麻辣'}, {id: 1, text: '香辣'}, {id: 2, text: '咸鲜'}, {id: 3, text: '清淡'}, {id: 4, text: '酱香'}, {id: 5, text: '糖醋'}, {id: 6, text: '劲脆'}, {id: 7, text: '香甜'}, {id: 8, text: '酸辣'}]
 export default {
   name: 'my',
   data () {
-    var user = {
-      name: '鹅厂小吃货',
-      sex: 0,
-      avatar: '' || require('../../assets/ic_head_default.png'),
-      taste: '香辣、麻辣',
-      food: '中餐、西餐'
-    }
     var pics = {
       male: require('../../assets/userinfo_icon_male.png'),
       female: require('../../assets/userinfo_icon_female.png'),
       right_arrow: require('../../assets/ic_right_arrow.png')
     }
     return {
-      user: user,
+      user: {},
       pics: pics
     }
+  },
+  created () {
+    getUserInfo().then(response => {
+      if (response.data === 'request error') {
+        window.location = '/login.html'
+      }
+      var data = response.data
+      var sex = data.sex === 'm' ? 0 : 1
+      var foodids = data.style.split(' ')
+      var tasteids = data.taste.split(' ')
+      var foodtext = []
+      var tastetext = []
+      for (let item in foodids) {
+        foodtext.push(foods[item].text)
+      }
+      for (let item in tasteids) {
+        tastetext.push(tastes[item].text)
+      }
+      var user = {
+        name: data.name,
+        sex,
+        taste: tastetext.join('、'),
+        food: foodtext.join('、'),
+        avatar: localStorage.AVATAR || require('../../assets/ic_head_default.png')
+      }
+      this.user = user
+    })
   }
 }
 </script>
