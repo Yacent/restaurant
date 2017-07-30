@@ -1,10 +1,25 @@
 <template>
   <div id="footer-bar">
-    <router-link :to="item.links" class="tabbar-item" v-for="(index, item) in tabbarItems" :key="index">
+    <router-link to="/main/flavor" class="tabbar-item">
       <div class="item-icon">
-        <icon :name="item.icon"></icon>
+        <img src="../assets/flavor-selected.png" alt="口味" v-if="this.$route.path === '/main/flavor'">
+        <img src="../assets/flavor.png" alt="口味" v-else>
       </div>
-      <span class="label">{{ item.label }}</span>
+      <span class="label">口味</span>
+    </router-link>
+    <router-link to="/main/recommend" class="tabbar-item">
+      <div class="item-icon">
+        <img src="../assets/recommend-selected.png" alt="推荐" v-if="this.$route.path === '/main/recommend'">
+        <img src="../assets/recommend.png" alt="推荐" v-else>
+      </div>
+      <span class="label">推荐</span>
+    </router-link>
+    <router-link to="/main/my" class="tabbar-item">
+      <div class="item-icon">
+        <img src="../assets/me-selected.png" alt="我的" v-if="this.$route.path === '/main/my'">
+        <img src="../assets/me.png" alt="我的" v-else>
+      </div>
+      <span class="label">我的</span>
     </router-link>
   </div>
 </template>
@@ -14,11 +29,11 @@ export default {
   name: 'footer-bar',
   data () {
     return {
-      tabbarItems: [
-        { icon: 'university', label: '口味', links: '/main/flavor' },
-        { icon: 'star', label: '推荐', links: '/main/recommend' },
-        { icon: 'user', label: '我的', links: '/main/my' }
-      ]
+    }
+  },
+  methods: {
+    changeStage (stage) {
+      this.stage = stage
     }
   }
 }
@@ -26,9 +41,11 @@ export default {
 
 <style lang="less" scoped>
 #footer-bar {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
+  background-color: #fff;
+  z-index: 11;
   width: 100%;
   height: 70px;
   box-shadow: 0 -1px 1px #e0e0e0;
@@ -44,10 +61,9 @@ export default {
 
     .item-icon {
       text-align: center;
-      padding-top: 8px;
-      svg {
-        width: 28px;
-        height: 28px;
+      padding-top: 4px;
+      img {
+        width: 60px;
       }
     }
 

@@ -7,19 +7,22 @@ import Mypoint from '@/pages/mypoint/mypoint'
 import Foodset from '@/pages/foodset/foodset'
 import Tasteset from '@/pages/tasteset/tasteset'
 import BFoodedit from '@/pages/b_foodedit/foodedit'
+import Recommend from '@/pages/recommend/recommend'
+import Restaurant from '@/pages/restaurant/restaurant'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   routes: [
-    {path: '/', redirect: '/main/flavor'},
+    { path: '/', redirect: '/main/flavor' },
     {
       path: '/main',
       name: 'main',
       component: Main,
       children: [
         { path: 'flavor', component: Flavor },
+        { path: 'recommend', component: Recommend },
         { path: 'my', component: My },
         { path: 'mypoint', component: Mypoint }
       ]
@@ -33,6 +36,11 @@ export default new Router({
       children: [
         { path: 'foodedit', component: BFoodedit }
       ]
+    },
+    {
+      path: '/restaurant/:pos',
+      name: 'restaurant',
+      component: Restaurant
     }
   ]
 })
