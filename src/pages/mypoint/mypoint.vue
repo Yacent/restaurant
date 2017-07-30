@@ -1,14 +1,16 @@
 <template>
   <div id="mypoint">
-    <div>     
-      <p><i class="ip"></i>剩余积分：{{points}}分</p>
-      <p><i class="it"></i>剩余夜宵券：{{tickets}}张</p>
+     <headbar :url="'/main/my'" :title="'积分兑换'"></headbar>
+     <div class="ponit_static" >     
+      <div><img :src="pics.point_icon" alt="" :style="{left:'19%'}">剩余积分：{{points}}分</div>
+      <div><img :src="pics.tickets_icon" alt="" :style="{left:'19%'}">剩余夜宵券：{{tickets}}张</div>
     </div>
-    <p><a href="#" class="gettic" v-on:click="getTicket"><img :src="tickerpic" alt=""></a></p>
+    <p><a href="#" class="gettic" v-on:click="getTicket"><img :src="pics.ticker" alt=""></a></p>
   </div>
 </template>
 
 <script>
+import headbar from '../../components/headbar'
 export default {
   name: 'mypoint',
   data () {
@@ -17,7 +19,11 @@ export default {
     return {
       points: points,
       tickets: tickets,
-      tickerpic: require('../../assets/u749.jpg')
+      pics: {
+        ticker: require('../../assets/ic_food_ticket_card.jpg'),
+        point_icon: require('../../assets/ic_food_score.png'),
+        tickets_icon: require('../../assets/ic_food_ticket.png')
+      }
     }
   },
   methods: {
@@ -27,6 +33,9 @@ export default {
         this.tickets += 1
       }
     }
+  },
+  components: {
+    headbar
   }
 }
 </script>
@@ -37,6 +46,16 @@ export default {
       width:100%;
       img{
           width:80%
+      }
+    }
+    .ponit_static{
+      margin:20px 0 40px 0;
+      div{
+        margin-bottom:10px;
+      }
+      img{
+        width:25px;
+        position:absolute;
       }
     }
 </style>
