@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// import registerInfo from './modules/register'
+import business from './modules/business'
 
 Vue.use(Vuex)
 
@@ -13,6 +13,7 @@ export default new Vuex.Store({
   mutations: {
   },
   modules: {
+    business
   },
   strict: debug
 })

@@ -25,7 +25,7 @@ export default {
         {links: '/restaurant/malata', name: '万利达食堂'},
         {links: '/restaurant/fiyta', name: '飞亚达食堂'},
         {links: '/restaurant/netac', name: '朗科食堂'},
-        {links: '/restaurant/kexin', name: '科兴食堂'}
+        {links: '/restaurant/kexing', name: '科兴食堂'}
       ]
     }
   }
