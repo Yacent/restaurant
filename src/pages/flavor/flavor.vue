@@ -4,7 +4,7 @@
       <img src="../../assets/flavor-logo.png" alt="flavor-logo">
     </div>
     <div class="flavor-container">
-      <router-link :to="item.links" class="restaurant" v-for="(item, index) in buildInfo" :key="index">
+      <router-link :to="'/restaurant/'+item.id" class="restaurant" v-for="(item, index) in buildInfo" :key="item.id">
         <div class="up">
           {{ item.name }}
         </div>
@@ -16,18 +16,21 @@
 </template>
 
 <script>
+import {getResList} from '../../api'
 export default {
   name: 'flavor',
   data () {
     return {
-      buildInfo: [
-        {links: '/restaurant/tencent', name: '腾讯食堂'},
-        {links: '/restaurant/malata', name: '万利达食堂'},
-        {links: '/restaurant/fiyta', name: '飞亚达食堂'},
-        {links: '/restaurant/netac', name: '朗科食堂'},
-        {links: '/restaurant/kexing', name: '科兴食堂'}
-      ]
+      buildInfo: []
     }
+  },
+  created () {
+    getResList().then(response => {
+      var data = response.data
+      if (data.length) {
+        this.buildInfo = data
+      }
+    })
   }
 }
 </script>

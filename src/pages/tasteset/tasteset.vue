@@ -10,7 +10,7 @@
            :isfull="isFull"
            :style="{left: position[item.id].left,top: position[item.id].top}"></Setbtn>    
     <div class="commitarea">
-      <a class="commitbtn" @click="tasteset">确定</a>
+      <a :class="['commitbtn', isEmp ? 'defaultbtn' : '' ]" @click="tasteset">确定</a>
     </div>
   </div>
 </template>
@@ -55,14 +55,29 @@ export default {
       foods: foods,
       position: position,
       choiced: [],
-      isFull: false
+      isFull: false,
+      isEmp: true
+    }
+  },
+  watch: {
+    choiced: function () {
+      this.isEmp = this.choiced.length === 0
     }
   },
   methods: {
     tasteset: function () {
+      if (this.choiced.length === 0) {
+        console.log('还没选择数据')
+        return
+      }
       var choicedStr = this.choiced.join(',')
       setFavoriteTaste(1234, choicedStr).then(response => {
-        console.log(response)
+        if (response.data === 'request error') {
+          window.location = '/login.html'
+        }
+        if (response.data === 'okay') {
+          window.location = '/main/flavor.html'
+        }
       }, response => {
         console.log('wrong:', response)
       })
@@ -112,6 +127,8 @@ export default {
     height: 40px;
     line-height: 40px;
     color:#fff;
-
+  }
+  .defaultbtn{
+    background: #ccc;
   }
 </style>

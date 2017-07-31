@@ -18,7 +18,7 @@ export default {
   name: 'business-restaurant',
   data () {
     return {
-      selectBarIndex: 0,
+      selectBarIndex: 2,
       selectBarOption: [
         {name: '新品推荐', category: 0},
         {name: '今日菜单', category: 1},

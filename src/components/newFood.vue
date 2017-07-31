@@ -1,18 +1,9 @@
 <template>
   <div id="new-food">
-    <div class="new-title">新品推荐(4)</div>
+    <div class="new-title">新品推荐({{newList.length}})</div>
     <div class="new-show">
-      <router-link to="/sda">
-        <img src="../assets/new-1.jpg" alt="new-1">
-      </router-link>
-      <router-link to="/sda">
-        <img src="../assets/new-2.jpg" alt="new-1">
-      </router-link>
-      <router-link to="/sda">
-        <img src="../assets/new-3.jpg" alt="new-1">
-      </router-link>
-      <router-link to="/sda">
-        <img src="../assets/new-4.jpg" alt="new-1">
+      <router-link to="/" v-for="(item, index) in newList" :key="index">
+        <img :src="item.pic" alt="item.rest">
       </router-link>
     </div>
   </div>
@@ -21,6 +12,7 @@
 <script>
 export default {
   name: 'new-food',
+  props: ['newList'],
   data () {
     return {
     }

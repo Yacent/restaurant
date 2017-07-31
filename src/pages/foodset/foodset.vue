@@ -10,7 +10,7 @@
            :isfull="isFull"
            :style="{left: position[item.id].left,top: position[item.id].top}"></Setbtn>    
     <div class="commitarea">
-      <a class="commitbtn">确定</a>
+      <a :class="['commitbtn', isEmp ? 'defaultbtn' : '' ]" @click="foodset">确定</a>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ var position = [{
 }
 ]
 import Setbtn from '../../components/setbtn'
-import {setFavoriteFood, userLogin} from '../../api'
+import {setFavoriteFood, userLogin, getUserInfo} from '../../api'
 export default {
   name: 'foodset',
   data () {
@@ -53,7 +53,12 @@ export default {
       position: position,
       choiced: [],
       isFull: false,
-      TOKEN: localStorage['token']
+      isEmp: true
+    }
+  },
+  watch: {
+    choiced: function () {
+      this.isEmp = this.choiced.length === 0
     }
   },
   methods: {
@@ -80,17 +85,39 @@ export default {
       }
     },
     foodset: function () {
-      var choicedStr = this.choiced.join(',')
-      setFavoriteFood(110, choicedStr).then(response => {
+      if (this.choiced.length === 0) {
+        console.log('还没选择数据')
+        return
+      }
+      var choicedStr = this.choiced.join(' ')
+      setFavoriteFood(choicedStr).then(response => {
+        if (response.data === 'request error') {
+          window.location = '/login.html'
+        }
+        if (response.data === 'okay') {
+          window.location = '/tasteset.html'
+        }
       }, response => {
         console.log('wrong:', response)
       })
     }
   },
   created () {
-    userLogin('1234').then(response => {
-      console.log(response)
-    }, response => {})
+    var user = {
+      user_id: '6110',
+      age: 17,
+      sex: 'm',
+      name: 'zhouzhou'
+    }
+    userLogin(user).then(response => {
+      localStorage.TOKEN = response.data.csrf
+    }).then(() => {
+      getUserInfo().then(response => {
+        if (response.data.taste !== '' || response.data.style !== '') {
+          window.location = '/main/flavor'
+        }
+      })
+    })
   },
   components: {
     Setbtn
@@ -112,5 +139,8 @@ export default {
     height: 40px;
     line-height: 40px;
     color:#fff;
+  }
+  .defaultbtn{
+    background: #ccc;
   }
 </style>

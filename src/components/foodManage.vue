@@ -3,6 +3,10 @@
     <div class="region-title">
       {{ options.title }}
     </div>
+    <div class="no-food-items" v-if="foodItems.length === 0">
+      <icon name="info-circle"></icon>
+      暂时没有 {{ options.index === 0 ? '新品推荐菜' : '菜品' }}，请进行相关的操作
+    </div>
     <div class="items-container">
       <div class="region-item" v-for="(item, index) in foodItems" :key="index">
         <div class="upper-status">
@@ -12,7 +16,7 @@
           </div>
         </div>
         <div class="item-img">
-          <img src="../assets/new-1.jpg" alt="菜品">
+          <img :src="item.imgUrl" alt="菜品" test="item.imgUrl">
         </div>
         <div class="item-bottom">
           <div class="item-name">{{ item.foodName }}</div>
@@ -39,8 +43,9 @@ export default {
     options: {
       type: Object,
       default: {
-        leftTitle: '',
-        title: '今日推荐'
+        leftTitle: '已上架',
+        title: '菜品库',
+        index: 2
       }
     }
   },
@@ -48,7 +53,27 @@ export default {
     return {
       foodStorageSelected: [],
       todayStorageSelected: [],
-      newStorageSelected: []
+      newStorageSelected: [],
+      buildingMap: {
+        'tencent': 1
+      }
+    }
+  },
+  created () {
+    let buildId = this.buildingMap[this.$route.params.bPos]
+    this.$store.dispatch('fetchFoodItems', buildId)
+  },
+  watch: {
+    options () {
+      let index = this.options.index
+      let buildId = this.buildingMap[this.$route.params.bPos]
+      if (index === 1) {
+        this.$store.dispatch('fetchTodayFood', buildId)
+      } else if (index === 0) {
+        this.$store.dispatch('fetchNewFood', buildId)
+      } else {
+        this.$store.dispatch('fetchFoodItems', buildId)
+      }
     }
   },
   methods: {
@@ -57,41 +82,70 @@ export default {
       // 判断是哪个页面下的改变，去修改相对应的 vuex的数组的值
       // 同时，改变storage当中的数据
       if (this.options.index === 0) {
-        this.filterStorage(this.newStorageSelected, index, item)
+        this.filterStorage(this.newStorageSelected, item)
         this.$store.commit('modifyNewFood', {index: index})
         // console.log(this.newStorageSelected.index)
         // console.log(this.foodItems[index])
       } else if (this.options.index === 1) {
-        this.filterStorage(this.todayStorageSelected, index, item)
+        this.filterStorage(this.todayStorageSelected, item)
         this.$store.commit('modifyTodayFood', {index: index})
       } else {
-        this.filterStorage(this.foodStorageSelected, index, item)
+        this.filterStorage(this.foodStorageSelected, item)
         this.$store.commit('modifyFoodItems', {index: index})
       }
 
       // this.foodItems[index].isSelected = !shelf
     },
-    filterStorage (obj, index, item) {
-      if (!item.isShelf) {
-        if (!obj.includes(index)) {
-          obj.push(index)
-        } else {
-          let i = obj.findIndex(num => num === index)
-          obj.splice(i, 1)
-        }
+    filterStorage (obj, item) {
+      // if (!item.isShelf) {
+      if (!obj.includes(item.id)) {
+        obj.push(item.id)
+      } else {
+        let i = obj.findIndex(num => num === item.id)
+        obj.splice(i, 1)
       }
+      // }
+    },
+    filterUndo (arr) {
+      let result = {
+        undo: [],
+        do: []
+      }
+      arr.forEach(item => {
+        for (let i = 0; i < this.foodItems.length; i++) {
+          if (this.foodItems[i].id === item) {
+            if (this.foodItems[i].isShelf) {
+              result.do.push(item)
+            } else {
+              result.undo.push(item)
+            }
+          }
+        }
+      })
+      return result
     },
     addFood () {
       // 在这里添加食物
-      if (this.foodStorageSelected.length > 0) {
-        this.$store.commit('addFoodItems', {keyArr: this.foodStorageSelected})
+      let undo = this.filterUndo(this.foodStorageSelected).undo
+      if (undo !== undefined && undo.length > 0) {
+        this.$store.dispatch('addFoodItems', {
+          build_id: this.buildingMap[this.$route.params.bPos],
+          foodIds: undo.join(' ')
+        })
+        this.$store.commit('addFoodItems', undo)
+        this.foodStorageSelected = []
       }
-      this.foodStorageSelected = []
     },
     recommendFood () {
       // 在这里推荐食物
-      if (this.todayStorageSelected.length > 0) {
-        this.$store.commit('addNewFood', {keyArr: this.todayStorageSelected})
+      let undo = this.filterUndo(this.todayStorageSelected).undo
+      if (undo !== undefined && undo.length > 0) {
+        this.$store.dispatch('addRecommendFood', {
+          building_id: this.buildingMap[this.$route.params.bPos],
+          foodIds: undo.join(' '),
+          opr_method: 'SET'
+        })
+        this.$store.commit('addNewFood', undo)
       }
       this.todayStorageSelected = []
     }
@@ -121,6 +175,15 @@ export default {
     font-size: 24px;
     text-align: center;
     padding-bottom: 15px;
+  }
+
+  .no-food-items {
+    padding: 10px 0;
+    color: red;
+
+    svg {
+      vertical-align: -3px;
+    }
   }
 
   .items-container {

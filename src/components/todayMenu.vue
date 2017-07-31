@@ -12,16 +12,16 @@
     <div class="menu-detail" v-for="(item, index) in todayMenuList" key="index">
       <div class="detail-img">
         <span class="show-top" v-if="item.top !== ''">{{ item.top }}</span>
-        <img src="../assets/new-1.jpg" alt="new-1">
+        <img :src="item.pic" alt="new-1">
       </div>
       <div class="detail-desp">
         <div class="food-info">
-          <div class="food-title">{{ item.foodTitle }}</div>
-          <div class="food-price">￥{{ item.foodPrice }}</div>
+          <div class="food-title">{{ item.name }}</div>
+          <div class="food-price">￥{{ item.price }}</div>
         </div>
-        <div class="food-pos">档口：{{ item.foodPos }}</div>
+        <div class="food-pos">档口：{{ item.rest }}</div>
         <div class="like-btn" @click="changeLikeState(index)">
-          <span class="like-span" v-if="item.likeState">
+          <span class="like-span" v-if="item.isWant">
             <icon name="thumbs-o-up"></icon>
             <span class="btn-desp">想吃</span>
           </span>
@@ -40,16 +40,11 @@ import SelectOption from './selectOption.vue'
 
 export default {
   name: 'today-menu',
+  props: ['todayMenuList'],
   data () {
     return {
       likeState: true,
-      selectState: false,
-      todayMenuList: [
-        {top: 'TOP1', imgUrl: '../assets/new-1.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true},
-        {top: 'TOP2', imgUrl: '../assets/new-2.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: false},
-        {top: 'TOP3', imgUrl: '../assets/new-3.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true},
-        {top: '', imgUrl: '../assets/new-4.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true}
-      ]
+      selectState: false
     }
   },
   methods: {
