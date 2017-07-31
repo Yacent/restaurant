@@ -22,7 +22,13 @@
         //     btnId:"qqLoginBtn"	//插入按钮的节点id
         // });
         function loginqq(){
-            QC.Login.showPopup()
+            //QC.Login.showPopup()
+            var s = [];
+            for (var i = 0; i < 30; i++) {
+              s.push(Math.floor(Math.random() * 10));
+            }
+            localStorage.openId = s.join('');
+            window.location = '/';
         }
         //从页面收集OpenAPI必要的参数。get_user_info不需要输入参数，因此paras中没有参数
         // QC.Login({
@@ -30,13 +36,15 @@
         //     size : "B_M",//按钮尺寸
         //     scope : "get_user_info",//展示授权，全部可用授权可填 all
         //     display : "pc"//应用场景，可选
-        // }); 
-        if (QC.Login.check()) {
-                console.log(111111111)
-                QC.Login.getMe(function (openId, accessToken) {
-                    console.log(openId, accessToken);
-                })
-            }         
+        // });
+        // console.log(QC.Login.check())
+        // if(QC.Login.check()){
+        //     QC.Login.getMe(function(openId, accessToken){
+        //         localStorage.openId = openId
+        //         window.location = "/"
+        //     })
+        // }
+
     </script>
   </body>
 </html>
