@@ -8,7 +8,7 @@
            :itemid="item.id"
            :text="item.text"
            :isfull="isFull"
-           :style="{left: position[item.id].left,top: position[item.id].top}"></Setbtn>    
+           :style="{left: position[item.id].left,top: position[item.id].top}"></Setbtn>
     <div class="commitarea">
       <a :class="['commitbtn', isEmp ? 'defaultbtn' : '' ]" @click="foodset">确定</a>
     </div>
@@ -103,7 +103,7 @@ export default {
   },
   created () {
     var user = {
-      user_id: '23478748778',
+      user_id: localStorage.openId,
       age: 0,
       sex: localStorage.gender || 'm',
       name: localStorage.nickname || ''
