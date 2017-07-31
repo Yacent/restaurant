@@ -6,7 +6,7 @@
       <span>推荐菜</span>
     </div>
     <div class="recommend-main">
-      <recommend-food></recommend-food>
+      <recommend-food :list="recommendList"></recommend-food>
     </div>
   </div>
 </template>
@@ -15,7 +15,7 @@
 import RecommendFood from '../../components/recommendFood.vue'
 import Confirm from '../../components/confirm.vue'
 import ConfirmStatus from '../../components/confirmStatus.vue'
-
+import {recommendFood} from '../../api'
 export default {
   name: 'recommend',
   data () {
@@ -23,8 +23,30 @@ export default {
       showConfirmTable: false,
       confirmStatus: false,
       title: '兑换宵夜券',
-      content: '哈哈哈哈哈'
+      content: '哈哈哈哈哈',
+      recommendList: []
     }
+  },
+  created () {
+    recommendFood().then(response => {
+      if (!response.data.length) {
+        return
+      }
+      var list = response.data || []
+      if (list.length) {
+        list.sort(function (a, b) {
+          return b.like - a.like
+        })
+        list.forEach((item, index) => {
+          if (index < 3) {
+            item.top = 'TOP' + (index + 1)
+          } else {
+            item.top = ''
+          }
+        })
+        this.recommendList = list
+      }
+    })
   },
   methods: {
     showConfirm () {

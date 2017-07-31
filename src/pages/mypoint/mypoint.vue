@@ -11,6 +11,7 @@
 
 <script>
 import headbar from '../../components/headbar'
+import confirm from '../../components/confirm'
 import {exchangeVoucher} from '../../api'
 export default {
   name: 'mypoint',
@@ -52,7 +53,8 @@ export default {
     })
   },
   components: {
-    headbar
+    headbar,
+    confirm
   }
 }
 </script>

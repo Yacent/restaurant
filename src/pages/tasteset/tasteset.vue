@@ -70,13 +70,14 @@ export default {
         console.log('还没选择数据')
         return
       }
-      var choicedStr = this.choiced.join(',')
-      setFavoriteTaste(1234, choicedStr).then(response => {
+      var choicedStr = this.choiced.join(' ')
+      setFavoriteTaste(choicedStr).then(response => {
         if (response.data === 'request error') {
-          window.location = '/login.html'
+          // window.location = '/login.html'
+          console.log(response)
         }
-        if (response.data === 'okay') {
-          window.location = '/main/flavor.html'
+        if (response.data === 'success') {
+          this.$router.push('/main/flavor')
         }
       }, response => {
         console.log('wrong:', response)
@@ -85,17 +86,16 @@ export default {
     choicechange: function (param) {
       var choiced = this.choiced
       var len = choiced.length
-      console.log(this.choiced)
-      var id = param[0]
+      var text = param[0]
       var isAdd = param[1]
       if (isAdd) {
-        this.choiced.push(id)
+        this.choiced.push(text)
         if (len + 1 === 3) {
           this.isFull = true
         }
       } else {
         for (var i = 0; i < len; i++) {
-          if (choiced[i] === id) {
+          if (choiced[i] === text) {
             this.choiced.pop(i)
             if (len - 1 === 2) {
               this.isFull = false

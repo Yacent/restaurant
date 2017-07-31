@@ -9,7 +9,7 @@
           {{ item.name }}
         </div>
         <div class="mask"></div>
-        <div class="bottom"></div>
+        <div :class="['res'+ index, 'bottom']"></div>
       </router-link>
     </div>
   </div>
@@ -25,16 +25,19 @@ export default {
     }
   },
   created () {
-    getResList().then(response => {
-      var data = response.data
-      if (data.length) {
-        this.buildInfo = data
-      }
-    })
+    if (localStorage.TOKEN) {
+      getResList().then(response => {
+        var data = response.data
+        if (data.length) {
+          this.buildInfo = data
+        }
+      })
+    } else {
+      this.$router.push('/foodset')
+    }
   }
 }
 </script>
-
 <style lang="less" scoped>
 #flavor {
   height: 100%;
@@ -99,9 +102,26 @@ export default {
         left: 0;
         z-index: 2;
       }
+      .res0 {
+        background-image: url('../../assets/res1.jpg')
+      }
+      .res1 {
+        background-image: url('../../assets/res2.jpg')
+      }
+      .res2 {
+        background-image: url('../../assets/res3.png')
+      }
+      .res3 {
+        background-image: url('../../assets/res4.png')
+      }
+      .res4 {
+        background-image: url('../../assets/res5.jpg')
+      }
+      .res5 {
+        background-image: url('../../assets/res6.png')
+      }
 
       .bottom {
-        background-image: url('../../assets/building-bg-holder.jpg');
         height: 220px;
         background-size: cover;
         background-repeat: no-repeat;

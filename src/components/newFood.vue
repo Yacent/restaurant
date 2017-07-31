@@ -54,8 +54,9 @@ export default {
       }
 
       img {
-        min-height: 130px;
-        min-width: 130px;
+        // min-height: 130px;
+        width: 100%;
+        height: auto;
       }
     }
   }

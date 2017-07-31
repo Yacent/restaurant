@@ -21,7 +21,7 @@
         </div>
         <div class="food-pos">档口：{{ item.rest }}</div>
         <div class="like-btn" @click="changeLikeState(index)">
-          <span class="like-span" v-if="item.isWant">
+          <span class="like-span" v-if="!item.isWant">
             <icon name="thumbs-o-up"></icon>
             <span class="btn-desp">想吃</span>
           </span>
@@ -37,21 +37,31 @@
 
 <script>
 import SelectOption from './selectOption.vue'
-
+import {diswantFood, wantFood} from '../api'
 export default {
   name: 'today-menu',
   props: ['todayMenuList'],
   data () {
     return {
-      likeState: true,
       selectState: false
     }
   },
   methods: {
     changeLikeState (index) {
-      let state = this.todayMenuList[index].likeState
-      if (state) {
-        this.todayMenuList[index].likeState = !state
+      let target = this.todayMenuList[index]
+      let state = target.isWant
+      if (state === false) {
+        wantFood(target.id).then(response => {
+          if (response.data === 'success') {
+            this.todayMenuList[index].isWant = !state
+          }
+        })
+      } else {
+        diswantFood(target.id).then(response => {
+          if (response.data === 'success') {
+            this.todayMenuList[index].isWant = !state
+          }
+        })
       }
     },
     showSelect () {

@@ -9,8 +9,6 @@ import Tasteset from '@/pages/tasteset/tasteset'
 import BFoodedit from '@/pages/b_foodedit/foodedit'
 import Recommend from '@/pages/recommend/recommend'
 import Restaurant from '@/pages/restaurant/restaurant'
-import Business from '@/pages/business/business'
-import BusinessRest from '@/pages/business/businessRest'
 
 Vue.use(Router)
 
@@ -35,9 +33,8 @@ export default new Router({
     {
       path: '/business',
       name: 'business',
-      component: Business,
       children: [
-        { path: 'restaurant/:bPos', name: 'businessR', component: BusinessRest }
+        { path: 'foodedit', component: BFoodedit }
       ]
     },
     {

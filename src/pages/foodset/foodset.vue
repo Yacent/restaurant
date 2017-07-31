@@ -65,17 +65,16 @@ export default {
     choicechange: function (param) {
       var choiced = this.choiced
       var len = choiced.length
-      console.log(this.choiced)
-      var id = param[0]
+      var text = param[0]
       var isAdd = param[1]
       if (isAdd) {
-        this.choiced.push(id)
+        this.choiced.push(text)
         if (len + 1 === 3) {
           this.isFull = true
         }
       } else {
         for (var i = 0; i < len; i++) {
-          if (choiced[i] === id) {
+          if (choiced[i] === text) {
             this.choiced.pop(i)
             if (len - 1 === 2) {
               this.isFull = false
@@ -94,8 +93,8 @@ export default {
         if (response.data === 'request error') {
           window.location = '/login.html'
         }
-        if (response.data === 'okay') {
-          window.location = '/tasteset.html'
+        if (response.data === 'success') {
+          this.$router.push('/tasteset')
         }
       }, response => {
         console.log('wrong:', response)
@@ -104,18 +103,16 @@ export default {
   },
   created () {
     var user = {
-      user_id: '6110',
-      age: 17,
-      sex: 'm',
-      name: 'zhouzhou'
+      user_id: '23478748778',
+      age: 0,
+      sex: localStorage.gender || 'm',
+      name: localStorage.nickname || ''
     }
     userLogin(user).then(response => {
       localStorage.TOKEN = response.data.csrf
     }).then(() => {
       getUserInfo().then(response => {
-        if (response.data.taste !== '' || response.data.style !== '') {
-          window.location = '/main/flavor'
-        }
+        console.log(response)
       })
     })
   },

@@ -50,7 +50,9 @@ export default {
       }
     })
     getNewByRestId(buildId).then(response => {
-      console.log('getNewByRestId', response)
+      if (response.data.length) {
+        this.news = response.data
+      }
     })
   },
   components: {

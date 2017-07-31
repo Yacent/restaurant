@@ -1,22 +1,22 @@
 <template>
   <div id="recommend-menu">
-    <div class="menu-detail" v-for="(item, index) in todayMenuList" key="index">
+    <div class="menu-detail" v-for="(item, index) in list" key="index">
       <div class="detail-img">
         <span class="show-top" v-if="item.top !== ''">{{ item.top }}</span>
         <img src="../assets/new-1.jpg" alt="new-1">
         <div class="recommend-count-container">
           <div class="count-mask"></div>
-          <div class="recomment-count">17人推荐</div>
+          <div class="recomment-count">{{item.likes}}人推荐</div>
         </div>
       </div>
       <div class="detail-desp">
         <div class="food-info">
-          <div class="food-title">{{ item.foodTitle }}</div>
-          <div class="food-price">￥{{ item.foodPrice }}</div>
+          <div class="food-title">{{ item.name }}</div>
+          <div class="food-price">￥{{ item.price }}</div>
         </div>
-        <div class="food-pos">档口：{{ item.foodPos }}</div>
+        <div class="food-pos">档口：{{ item.rest }}</div>
         <div class="like-btn" @click="changeLikeState(index)">
-          <span class="like-span" v-if="item.likeState">
+          <span class="like-span" v-if="!item.isWant">
             <icon name="thumbs-o-up"></icon>
             <span class="btn-desp">想吃</span>
           </span>
@@ -31,26 +31,29 @@
 </template>
 
 <script>
+import {diswantFood, wantFood} from '../api'
 export default {
   name: 'recommend-food',
+  props: ['list'],
   data () {
     return {
-      likeState: true,
-      todayMenuList: [
-        {top: 'TOP1', imgUrl: '../assets/new-1.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true},
-        {top: 'TOP2', imgUrl: '../assets/new-2.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: false},
-        {top: 'TOP3', imgUrl: '../assets/new-3.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true},
-        {top: '', imgUrl: '../assets/new-4.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true},
-        {top: '', imgUrl: '../assets/new-4.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true},
-        {top: '', imgUrl: '../assets/new-4.jpg', foodTitle: '雪花肥牛', foodPrice: '18', foodPos: '腾大13F中餐馆', likeState: true}
-      ]
+      likeState: true
     }
   },
   methods: {
     changeLikeState (index) {
-      let state = this.todayMenuList[index].likeState
-      if (state) {
-        this.todayMenuList[index].likeState = !state
+      let target = this.list[index]
+      let state = target.isWant
+      if (state === false) {
+        wantFood(target.id).then(response => {
+          console.log(response)
+        })
+        this.list[index].isWant = !state
+      } else {
+        diswantFood(target.id).then(response => {
+          console.log(response)
+        })
+        this.list[index].isWant = !state
       }
     }
   }

@@ -12,15 +12,13 @@
       <li><span class="l-info">性别</span><span class="l-value">{{user.sex === 0 ? '男':'女'}}</span></li>
       <li><span class="l-info">菜品</span><span class="l-value">{{user.food}}</span></li>
       <li><span class="l-info">口味</span><span class="l-value">{{user.taste}}</span></li>
-      <li><a :href="'/main/mypoint'" class="ticket l-info">积分饭票 <img :src="pics.right_arrow" alt="" ></a></li>
+      <li><router-link :href="'/main/mypoint'" class="ticket l-info">积分饭票 <img :src="pics.right_arrow" alt="" ></router-link></li>
     </ul>
   </div>
 </template>
 
 <script>
 import {getUserInfo} from '../../api'
-var foods = [{id: 0, text: '中餐'}, {id: 1, text: '西餐'}, {id: 2, text: '粤菜'}, {id: 3, text: '东南亚'}, {id: 4, text: '粉面食'}, {id: 5, text: '汤锅'}, {id: 6, text: '甜点'}, {id: 7, text: '饮品'}]
-var tastes = [{id: 0, text: '麻辣'}, {id: 1, text: '香辣'}, {id: 2, text: '咸鲜'}, {id: 3, text: '清淡'}, {id: 4, text: '酱香'}, {id: 5, text: '糖醋'}, {id: 6, text: '劲脆'}, {id: 7, text: '香甜'}, {id: 8, text: '酸辣'}]
 export default {
   name: 'my',
   data () {
@@ -41,21 +39,11 @@ export default {
       }
       var data = response.data
       var sex = data.sex === 'm' ? 0 : 1
-      var foodids = data.style.split(' ')
-      var tasteids = data.taste.split(' ')
-      var foodtext = []
-      var tastetext = []
-      for (let item in foodids) {
-        foodtext.push(foods[item].text)
-      }
-      for (let item in tasteids) {
-        tastetext.push(tastes[item].text)
-      }
       var user = {
         name: data.name,
         sex,
-        taste: tastetext.join('、'),
-        food: foodtext.join('、'),
+        taste: data.taste,
+        food: data.style,
         avatar: localStorage.AVATAR || require('../../assets/ic_head_default.png')
       }
       this.user = user

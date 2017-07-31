@@ -18,7 +18,7 @@ export default {
       }
       var oldChoice = this.isChoiced
       this.isChoiced = !oldChoice
-      this.$emit('choiceChange', [this.itemid, this.isChoiced])
+      this.$emit('choiceChange', [this.text, this.isChoiced])
     }
   }
 }
