@@ -81,3 +81,53 @@ export const diswantFood = (foodId) => {
     token: localStorage.TOKEN
   }))
 }
+
+// 获取B端 菜品库
+export const fetchBusinessFoodItems = (id) => {
+  return axios.post(api + 'get_food_list/', qs.stringify({
+    building_id: id
+  }))
+}
+
+// 上架 菜品
+export const postBusinessFoodItems = (payload) => {
+  console.log(payload)
+  return axios.post(api + 'set_daily_food_list/', qs.stringify({
+    build_id: payload.build_id,
+    food_ids: payload.foodIds
+  }))
+}
+
+// 获取今日菜单
+export const fetchBusinessTodayFood = (payload) => {
+  return axios.post(api + 'get_daily_food_list1/', qs.stringify({
+    build_id: payload
+  }))
+}
+
+// 获取新品推荐
+export const fetchBusinessNewFood = (payload) => {
+  return axios.post(api + 'get_new_food_recommendation_info/', qs.stringify({
+    building_id: payload
+  }))
+}
+
+// 推荐菜品
+export const postBusinessTodayFood = (payload) => {
+  console.log(payload)
+  return axios.post(api + 'recommend_food/', qs.stringify({
+    building_id: payload.building_id,
+    food_ids: payload.foodIds,
+    opr_method: payload.opr_method
+  }))
+}
+
+// 取消推荐菜品
+export const postBusinessUnTodayFood = (payload) => {
+  console.log(payload)
+  return axios.post(api + 'recommend_food/', qs.stringify({
+    building_id: payload.building_id,
+    food_ids: payload.foodIds,
+    opr_method: payload.opr_method
+  }))
+}
