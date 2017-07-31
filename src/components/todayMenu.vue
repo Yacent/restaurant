@@ -9,7 +9,7 @@
       </div>
       <select-option @hideSelect="hideSelectOption" v-if="selectState"></select-option>
     </div>
-    <div class="menu-detail" v-for="(item, index) in todayMenuList" key="index">
+    <div class="menu-detail" v-for="(item, index) in todayMenuList" key="index" @click="jumpToDetail(item.id)">
       <div class="detail-img">
         <span class="show-top" v-if="item.top !== ''">{{ item.top }}</span>
         <img :src="item.pic" alt="new-1">
@@ -69,6 +69,9 @@ export default {
     },
     hideSelectOption (data) {
       this.selectState = !this.selectState
+    },
+    jumpToDetail (id) {
+      this.$router.push('/detail/' + id + '/?pos=' + this.$route.params.pos)
     }
   },
   components: {

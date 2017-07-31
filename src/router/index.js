@@ -11,6 +11,8 @@ import Recommend from '@/pages/recommend/recommend'
 import Restaurant from '@/pages/restaurant/restaurant'
 import Business from '@/pages/business/business'
 import BusinessRest from '@/pages/business/businessRest'
+import Detail from '@/pages/detail/detail'
+import Comments from '@/pages/comments/comments'
 
 Vue.use(Router)
 
@@ -44,6 +46,16 @@ export default new Router({
       path: '/restaurant/:pos',
       name: 'restaurant',
       component: Restaurant
+    },
+    {
+      path: '/detail/:foodId',
+      name: 'detail',
+      component: Detail
+    },
+    {
+      path: '/comments/:commentId',
+      name: 'comments',
+      component: Comments
     }
   ]
 })

@@ -2,7 +2,7 @@
   <div id="new-food">
     <div class="new-title">新品推荐({{newList.length}})</div>
     <div class="new-show">
-      <router-link to="/" v-for="(item, index) in newList" :key="index">
+      <router-link :to="'/detail/' + item.id + '/?pos=' + $route.params.pos" v-for="(item, index) in newList" :key="index">
         <img :src="item.pic" alt="item.rest">
       </router-link>
     </div>
