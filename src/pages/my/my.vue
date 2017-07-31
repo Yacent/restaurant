@@ -12,7 +12,7 @@
       <li><span class="l-info">性别</span><span class="l-value">{{user.sex === 0 ? '男':'女'}}</span></li>
       <li><span class="l-info">菜品</span><span class="l-value">{{user.food}}</span></li>
       <li><span class="l-info">口味</span><span class="l-value">{{user.taste}}</span></li>
-      <li><router-link :href="'/main/mypoint'" class="ticket l-info">积分饭票 <img :src="pics.right_arrow" alt="" ></router-link></li>
+      <li><router-link to="/main/mypoint" class="ticket l-info">积分饭票 <img :src="pics.right_arrow" alt="" ></router-link></li>
     </ul>
   </div>
 </template>
@@ -62,7 +62,7 @@ export default {
       color: #666;
       background-size: cover;
 
-     
+
   }
   .mylist {
       padding: 0;
@@ -88,7 +88,7 @@ export default {
           width: 100%;
           height: 100%;
           text-align: left;
-          
+
           img{
             float: right;
             height: 80%;

@@ -81,6 +81,7 @@ const mutations = {
   },
   initNewFood (state, payload) {
     state.newFood = []
+    console.log(payload)
     payload.forEach(item => {
       state.newFood.push({
         isShelf: false,
